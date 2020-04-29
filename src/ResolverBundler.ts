@@ -14,11 +14,12 @@ export default function CreateResolverBundles(selectors: Selectors, resolvers: R
 
     for (let selectorArr of Object.entries(typeSelectors)) {
       const [name, selector] = selectorArr;
-      if (!(name in typeResolvers) && name !== 'item') continue;
       if (typeName === 'list' && name === 'item') {
         bundle['list_item'] = selector;
         continue;
       }
+
+      if (!(name in typeResolvers)) continue;
 
       typeBundle.push([name, selector, typeResolvers[name]]);
     }

@@ -8,10 +8,10 @@ export default class NewsScraper {
 
   private async getData(type: string, url?: string): Promise<any> {
     if (!this.config.resolvers[type]) throw new Error(`No resolvers for the type ${type}`);
-    url = url || this.config.base_url;
+    const sourceURL: string = url || this.config.base_url;
 
     try {
-      const html = await Fetch(url);
+      const html = await Fetch(sourceURL);
       const data = await ParseHTML(html, type, this.config.resolvers, this.config.base_url);
       return data;
     } catch (error) {
@@ -23,7 +23,7 @@ export default class NewsScraper {
     return this.getData('list');
   }
 
-  public async getSingle(url): Promise<any> {
+  public async getSingle(url: string): Promise<any> {
     return this.getData('single', url);
   }
 }
