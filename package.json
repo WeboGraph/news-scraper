@@ -7,8 +7,8 @@
     "build": "tsc -p .",
     "dev": "nodemon"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["nodejs", "scraper", "cheerio", "node-fetch"],
+  "author": "Rene Pohland <rene@webograph.de>",
   "license": "ISC",
   "devDependencies": {
     "@types/cheerio": "^0.22.18",
