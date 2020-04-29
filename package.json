@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p .",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "install": "npm run build"
   },
   "keywords": ["nodejs", "scraper", "cheerio", "node-fetch"],
   "author": "Rene Pohland <rene@webograph.de>",
