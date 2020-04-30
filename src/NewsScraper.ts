@@ -26,4 +26,8 @@ export default class NewsScraper {
   public async getSingle(url: string): Promise<any> {
     return this.getData('single', url);
   }
+
+  public resetPagination(): void {
+    this.current_page = 0;
+  }
 }
