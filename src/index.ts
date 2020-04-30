@@ -1,4 +1,5 @@
-import NewsScraper from './NewsScraper';
-import CreateResolverBundles from './ResolverBundler';
+import scraper from './NewsScraper';
+import bundler from './ResolverBundler';
 
-export default { NewsScraper, CreateResolverBundles };
+export const NewsScraper = scraper;
+export const CreateResolverBundles = bundler;
