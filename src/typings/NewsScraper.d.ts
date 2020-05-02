@@ -1,8 +1,9 @@
 import { ResolversBundle } from './ResolversBundle'
 
 export interface INewsScraperConfig {
-  name: String;
-  base_url: String;
+  name: string;
+  base_url: string;
+  list_base_url: string;
   resolvers: ResolversBundle;
-  paginator: any;
+  paginator: (page: number, base_url: string) => string;
 }
