@@ -1,10 +1,47 @@
 import Fetch from './utils/fetch';
 import ParseHTML from './utils/parse';
+import { INewsScraperConfig } from './typings/NewsScraper';
 
 export default class NewsScraper {
   private current_page: number = 0;
+  private nextListURL: string;
 
-  constructor(private config: any) {}
+  constructor(private config: INewsScraperConfig) {
+    this.nextListURL = this.config.list_base_url;
+  }
+
+  /**
+   * Get the name of the scraper
+   *
+   * @returns {string} conifg.name
+   * @memberof NewsScraper
+   */
+  public getName(): string {
+    return this.config.name;
+  }
+
+  /**
+   * Get the base url of the scraper
+   *
+   * @returns {string} config.base_url
+   * @memberof NewsScraper
+   */
+  public getBaseUrl(): string {
+    return this.config.base_url;
+  }
+
+  /**
+   * Get the url for the next list page
+   *
+   * @private
+   * @returns {string}
+   * @memberof NewsScraper
+   */
+  private paginateListUrl(): void {
+    const { list_base_url } = this.config;
+    this.nextListURL = this.config.paginator(this.current_page, list_base_url);
+    this.current_page++;
+  }
 
   /**
    * Fetchs a page and returns parsing data
@@ -15,14 +52,11 @@ export default class NewsScraper {
    * @returns {Promise<any>}
    * @memberof NewsScraper
    */
-  private async getData(type: string, url?: string): Promise<any> {
+  private async getData(type: string, url: string): Promise<any> {
     if (!this.config.resolvers[type]) throw new Error(`No resolvers for the type ${type}`);
 
-    // ToDo: remove after pagination is added
-    const sourceURL: string = url || this.config.base_url;
-
     try {
-      const html = await Fetch(sourceURL);
+      const html = await Fetch(url);
       const data = await ParseHTML(html, type, this.config.resolvers, this.config.base_url);
       return data;
     } catch (error) {
@@ -37,8 +71,8 @@ export default class NewsScraper {
    * @memberof NewsScraper
    */
   public async getNextPage(): Promise<any> {
-     // ToDo: adding logic to paginate list pages
-    return this.getData('list');
+    this.paginateListUrl();
+    return this.getData('list', this.nextListURL);
   }
 
 
